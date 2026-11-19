@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Мой гараж">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Мой гараж</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0e;--panel:#14181e;--panel2:#1b2129;--line:#29313b;--text:#f2f5f8;--muted:#929daa;--accent:#ff6b35;--green:#48c78e;--red:#ff626e;--yellow:#f5bd4f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px 24px}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 2px 14px}
+.brand{font-size:12px;letter-spacing:2.5px;color:var(--muted);font-weight:800}.brand b{color:var(--accent)}
+h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;width:44px;height:44px;font-size:19px}
+.hero{border:1px solid #343b45;border-radius:23px;overflow:hidden;background:linear-gradient(135deg,#202832,#11151b);position:relative}
+.hero-top{padding:18px 18px 0;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.eyebrow{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
+.carname{font-size:22px;font-weight:800;margin-top:6px}.car-meta{font-size:13px;color:#aeb8c4;margin-top:4px}
+.car-art{height:142px;display:flex;align-items:center;justify-content:center;font-size:88px;filter:drop-shadow(0 15px 12px #0008);opacity:.9}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #343b45;background:#11161c}
+.stat{padding:13px 10px;text-align:center;border-right:1px solid #343b45}.stat:last-child{border:0}
+.stat strong{display:block;font-size:17px}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 12px}
+.section-head h2{font-size:17px;margin:0}.linkbtn{border:0;background:none;color:var(--accent);font-weight:700}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quick button{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;text-align:left;color:var(--text);min-height:84px}
+.quick .qicon{font-size:22px;display:block;margin-bottom:9px}.quick b{font-size:14px}.quick small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted)}.small{font-size:12px}
+.pill{font-size:10px;padding:5px 8px;border-radius:99px;background:#26303a;color:#cbd4de;white-space:nowrap}
+.pill.ok{background:#153729;color:#6fe0aa}.pill.warn{background:#3a2e16;color:#ffd477}.pill.bad{background:#3d2025;color:#ff9ba2}
+.event-title{font-weight:750;font-size:15px;margin:8px 0 4px}.money{font-weight:800;color:var(--accent)}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#101419f2;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:9px 8px calc(9px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);max-width:760px;margin:auto}
+.nav button{background:none;border:0;color:#7f8a97;font-size:10px;font-weight:650;padding:4px 0}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{color:var(--accent)}
+.primary{background:var(--accent);border:0;color:#17100c;font-weight:850;border-radius:14px;padding:13px 16px}
+.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:13px;padding:11px 13px}
+.danger{color:var(--red);background:#321c20;border:1px solid #593038;border-radius:12px;padding:10px}
+.field{margin:12px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px;font-weight:650}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#0d1116;color:var(--text);border-radius:12px;padding:12px;outline:none}
+.field textarea{min-height:82px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.empty{text-align:center;padding:28px 16px;color:var(--muted)}.empty .big{font-size:36px;margin-bottom:10px}
+.page{display:none}.page.active{display:block}
+.modal{position:fixed;inset:0;background:#000b;z-index:10;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}
+.sheet{background:#11161c;border:1px solid var(--line);border-radius:24px 24px 0 0;width:100%;max-width:760px;max-height:92vh;overflow:auto;padding:18px 18px calc(24px + env(safe-area-inset-bottom))}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.sheet h2{font-size:20px;margin:0}
+.toast{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);background:#e8edf2;color:#111;padding:11px 16px;border-radius:99px;font-size:13px;font-weight:700;display:none;z-index:20;box-shadow:0 8px 25px #0008}
+.total{font-size:27px;font-weight:850;letter-spacing:-.7px}.bar{height:7px;background:#29313b;border-radius:10px;overflow:hidden;margin-top:9px}.bar i{display:block;height:100%;background:var(--accent);border-radius:10px}
+@media(min-width:600px){.quick{grid-template-columns:repeat(4,1fr)}.car-art{height:170px}.sheet{border-radius:24px;margin-bottom:20px}.modal{align-items:center;padding:20px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><div class="brand"><b>●</b> МОЙ ГАРАЖ</div><h1 id="pageTitle">Обзор</h1></div><button class="iconbtn" onclick="openSettings()" aria-label="Настройки">⚙</button></header>
+
+<section id="dashboard" class="page active">
+<div class="hero">
+ <div class="hero-top"><div><div class="eyebrow">Твой автомобиль</div><div class="carname" id="heroName">Honda Civic 5D</div><div class="car-meta" id="heroMeta">2008 · Оранжевый</div></div><span class="pill ok">В гараже</span></div>
+ <div class="car-art">🚘</div>
+ <div class="hero-stats"><div class="stat"><strong id="heroMileage">—</strong><span>Пробег, км</span></div><div class="stat"><strong id="heroSpent">0 ₽</strong><span>Расходы</span></div><div class="stat"><strong id="heroEvents">0</strong><span>Записей</span></div></div>
+</div>
+<div class="section-head"><h2>Быстрые действия</h2></div>
+<div class="quick">
+<button onclick="openEvent()"><span class="qicon">🛠️</span><b>Добавить работу</b><small>Ремонт, ТО, замена</small></button>
+<button onclick="openExpense()"><span class="qicon">💳</span><b>Добавить расход</b><small>Траты на автомобиль</small></button>
+<button onclick="openReminder()"><span class="qicon">⏰</span><b>Напоминание</b><small>По дате или пробегу</small></button>
+<button onclick="showPage('vehicle')"><span class="qicon">🚗</span><b>Мой автомобиль</b><small>Профиль и пробег</small></button>
+</div>
+<div class="section-head"><h2>Последние события</h2><button class="linkbtn" onclick="showPage('history')">Вся история →</button></div>
+<div id="recent"></div>
+<div class="section-head"><h2>Ближайшие напоминания</h2><button class="linkbtn" onclick="showPage('reminders')">Все →</button></div>
+<div id="upcoming"></div>
+</section>
+
+<section id="vehicle" class="page">
+<div class="card">
+ <div class="row"><div><div class="eyebrow">Профиль автомобиля</div><h2 id="vehicleName" style="margin:7px 0 3px">Honda Civic 5D</h2><div class="muted small" id="vehicleSubtitle">2008 · Оранжевый</div></div><span style="font-size:40px">🚘</span></div>
+ <div class="actions"><button class="secondary" onclick="editVehicle()">Изменить профиль</button><button class="secondary" onclick="editMileage()">Обновить пробег</button></div>
+</div>
+<div class="card"><div class="eyebrow">Данные автомобиля</div><div id="vehicleDetails" style="margin-top:12px"></div></div>
+<div class="card"><div class="eyebrow">Заметки</div><div class="field"><textarea id="vehicleNotes" placeholder="Комплектация, особенности, номера деталей..."></textarea></div><button class="primary" onclick="saveVehicleNotes()">Сохранить заметки</button></div>
+<div class="section-head"><h2>Системы автомобиля</h2><span class="muted small">Состояние и заметки</span></div>
+<div id="systemsList"></div>
+<div class="section-head"><h2>Фотогалерея</h2><button class="secondary" onclick="openGalleryAdd()">＋ Фото</button></div>
+<div id="galleryList" class="quick"></div>
+</section>
+
+<section id="history" class="page">
+<div class="row"><div class="muted small">Все работы и обслуживание</div><button class="primary" onclick="openEvent()">＋ Запись</button></div>
+<div id="historyList" style="margin-top:14px"></div>
+</section>
+
+<section id="expenses" class="page">
+<div class="card"><div class="eyebrow">Всего потрачено</div><div class="total" id="expenseTotal">0 ₽</div><div class="muted small">Учтённые расходы на автомобиль</div></div>
+<div class="row"><b>История расходов</b><button class="primary" onclick="openExpense()">＋ Расход</button></div>
+<div class="card"><div class="row"><b>Расходы по месяцам</b><span class="muted small">последние 6 месяцев</span></div><div id="expenseChart" style="display:flex;align-items:end;gap:9px;height:125px;margin-top:16px"></div></div>
+<div class="row"><b>Топливо</b><button class="secondary" onclick="openFuel()">＋ Заправка</button></div>
+<div class="card" style="margin-top:10px"><div class="row"><div><div class="eyebrow">Средний расход</div><div class="total" id="fuelAverage">—</div></div><div style="text-align:right"><div class="eyebrow">Всего заправлено</div><b id="fuelLiters">0 л</b></div></div><div class="muted small" style="margin-top:7px">Средний расход рассчитывается по методу «полный бак — полный бак» и требует пробега на каждой такой заправке.</div></div>
+<div id="fuelList"></div>
+<div class="row" style="margin-top:20px"><b>История расходов</b></div>
+<div id="expenseList" style="margin-top:12px"></div>
+</section>
+
+<section id="parts" class="page">
+<div class="row"><div class="muted small">Установленные и запасные детали</div><button class="primary" onclick="openPart()">＋ Деталь</button></div>
+<div class="card" style="margin-top:14px"><div class="eyebrow">Каталог запчастей</div><p class="muted small">Сохраняй производителя, артикул, дату установки, пробег и стоимость. Так будет проще отслеживать, что и когда менялось.</p></div>
+<div id="partsList"></div>
+</section>
+
+<section id="reminders" class="page">
+<div class="row"><div class="muted small">Контроль по дате и пробегу</div><button class="primary" onclick="openReminder()">＋ Добавить</button></div>
+<div class="section-head"><h2>Умное ТО</h2><button class="primary" onclick="openMaintenance()">＋ Регламент</button></div>
+<div class="card"><div class="eyebrow">Контроль обслуживания</div><p class="muted small" style="margin-bottom:0">Задай интервал по пробегу и/или времени. Приложение рассчитает остаток, покажет, что скоро пора обслуживать, и позволит отметить выполненную работу.</p></div>
+<div id="maintenanceList"></div>
+<div class="section-head"><h2>Разовые напоминания</h2></div>
+<div id="reminderList" style="margin-top:14px"></div>
+<div class="section-head"><h2>Аккумулятор</h2><button class="secondary" onclick="openBattery()">＋ Замер</button></div>
+<div class="card"><div class="eyebrow">Последнее напряжение</div><div class="total" id="batteryLatest">—</div><div class="muted small" id="batteryLatestMeta">Добавь первый замер</div></div>
+<div id="batteryList"></div>
+</section>
+
+<section id="settings" class="page">
+<div class="card"><h2 style="margin-top:0">Данные приложения</h2><p class="muted small">Все записи хранятся локально в Safari на этом устройстве. Регистрация и облако не используются.</p><div class="actions"><button class="primary" onclick="exportData()">Экспортировать резервную копию</button><button class="secondary" onclick="document.getElementById('importFile').click()">Восстановить из копии</button><input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)"></div></div>
+<div class="card"><h3 style="margin-top:0">Управление</h3><p class="muted small">При очистке данных Safari или удалении данных сайта локальная история может быть потеряна. Регулярно сохраняй резервную копию.</p><button class="danger" onclick="resetAll()">Удалить все данные приложения</button></div>
+<div class="card"><div class="eyebrow">Мой гараж</div><p class="muted small">Версия 4.0 · Локальное хранение · Офлайн-режим после установки</p></div>
+</section>
+</div>
+
+<nav class="nav">
+<button class="active" data-page="dashboard" onclick="showPage('dashboard')"><span>⌂</span>Обзор</button>
+<button data-page="vehicle" onclick="showPage('vehicle')"><span>🚘</span>Авто</button>
+<button data-page="history" onclick="showPage('history')"><span>🛠</span>История</button>
+<button data-page="expenses" onclick="showPage('expenses')"><span>₽</span>Расходы</button>
+<button data-page="parts" onclick="showPage('parts')"><span>⚙</span>Детали</button>
+<button data-page="reminders" onclick="showPage('reminders')"><span>◷</span>Сервис</button>
+</nav>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet"><div class="sheet-head"><h2 id="modalTitle">Новая запись</h2><button class="iconbtn" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='mojGarazh.v1';
+const defaults={maintenance:[],vehicle:{make:'Honda',model:'Civic 5D',year:'2008',color:'Оранжевый',vin:'',plate:'',engine:'1.8 л бензин',mileage:'',notes:''},events:[],expenses:[],reminders:[],parts:[],battery:[],fuel:[],gallery:[],systems:[]};
+let db=load();
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY)||'{}');return {...structuredClone(defaults),...x,vehicle:{...defaults.vehicle,...(x.vehicle||{})},events:x.events||[],expenses:x.expenses||[],reminders:x.reminders||[],maintenance:x.maintenance||[],parts:x.parts||[],battery:x.battery||[],fuel:x.fuel||[],gallery:x.gallery||[],systems:x.systems||[]}}catch(e){return structuredClone(defaults)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function rub(n){return (Number(n)||0).toLocaleString('ru-RU')+' ₽'}
+function dateFmt(d){if(!d)return 'Дата не указана';return new Date(d+'T00:00:00').toLocaleDateString('ru-RU')}
+function showToast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2300)}
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===p));document.getElementById('pageTitle').textContent=({dashboard:'Обзор',vehicle:'Автомобиль',history:'История',expenses:'Расходы и топливо',parts:'Запчасти',reminders:'Сервис и аккумулятор',settings:'Настройки'})[p]||'Мой гараж';render();window.scrollTo(0,0)}
+function openSettings(){showPage('settings')}
+function render(){
+ const v=db.vehicle, name=[v.make,v.model].filter(Boolean).join(' ')||'Мой автомобиль', meta=[v.year,v.color].filter(Boolean).join(' · ');
+ document.getElementById('heroName').textContent=name;document.getElementById('heroMeta').textContent=meta||'Профиль автомобиля';document.getElementById('heroMileage').textContent=v.mileage?Number(v.mileage).toLocaleString('ru-RU'):'—';
+ document.getElementById('heroSpent').textContent=rub([...db.expenses,...db.events,...db.fuel].reduce((s,x)=>s+(+x.amount||+x.total||+x.cost||0),0));document.getElementById('heroEvents').textContent=db.events.length;
+ document.getElementById('vehicleName').textContent=name;document.getElementById('vehicleSubtitle').textContent=meta;document.getElementById('vehicleNotes').value=v.notes||'';
+ document.getElementById('vehicleDetails').innerHTML=[['Марка и модель',name],['Год',v.year],['Цвет',v.color],['Двигатель',v.engine],['VIN',v.vin],['Госномер',v.plate],['Пробег',v.mileage?Number(v.mileage).toLocaleString('ru-RU')+' км':'Не указан']].map(([k,val])=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><span class="muted small">${k}</span><b style="text-align:right">${esc(val||'—')}</b></div>`).join('');
+ const systemNames=['Двигатель','Охлаждение','Трансмиссия','Тормозная система','Подвеска','Рулевое управление','Электрика','Кузов и ЛКП','Колёса и шины','Салон и оборудование'];
+ document.getElementById('systemsList').innerHTML=systemNames.map(n=>{let x=db.systems.find(a=>a.name===n)||{};return `<div class="card"><div class="row"><b>${n}</b><span class="pill ${x.status==='Требует внимания'?'warn':x.status==='Исправно'?'ok':''}">${esc(x.status||'Не оценено')}</span></div><div class="muted small" style="margin-top:6px">${x.date?'Обновлено: '+dateFmt(x.date):'Нет отметки'}${x.mileage?' · '+Number(x.mileage).toLocaleString('ru-RU')+' км':''}</div>${x.notes?`<p class="muted small">${esc(x.notes)}</p>`:''}<div class="actions"><button class="secondary" onclick="editSystem('${n}')">Обновить состояние</button></div></div>`}).join('');
+ document.getElementById('galleryList').innerHTML=db.gallery.length?db.gallery.slice().reverse().map(x=>`<div class="card" style="padding:8px"><img src="${x.photo}" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px"><div class="small" style="margin-top:7px">${esc(x.caption||'Фото автомобиля')}</div><div class="muted small">${dateFmt(x.date)}</div><button class="danger" style="margin-top:8px" onclick="deleteItem('gallery','${x.id}')">Удалить</button></div>`).join(''):'<div class="card empty" style="grid-column:1/-1">Добавь фотографии автомобиля, ремонта или изменений</div>';
+ const sorted=[...db.events].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ document.getElementById('recent').innerHTML=sorted.length?sorted.slice(0,3).map(eventCard).join(''):'<div class="card empty">Пока нет записей. Добавь первое обслуживание.</div>';
+ document.getElementById('historyList').innerHTML=sorted.length?sorted.map(eventCard).join(''):'<div class="card empty"><div class="big">🧰</div>История пока пустая</div>';
+ const total=db.expenses.reduce((s,x)=>s+(+x.amount||0),0)+db.events.reduce((s,x)=>s+(+x.cost||0),0)+db.fuel.reduce((s,x)=>s+(+x.amount||0),0);
+ document.getElementById('expenseTotal').textContent=rub(total);
+ const exp=[...db.expenses.map(x=>({...x,kind:'Расход'})),...db.events.filter(x=>+x.cost>0).map(x=>({id:x.id,title:x.title,date:x.date,amount:x.cost,category:'Работа',kind:'Работа'}))].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ document.getElementById('expenseList').innerHTML=exp.length?exp.map(x=>`<div class="card"><div class="row"><span class="pill">${esc(x.category||x.kind)}</span><b class="money">${rub(x.amount)}</b></div><div class="event-title">${esc(x.title)}</div><div class="muted small">${dateFmt(x.date)}</div>${x.receipt?`<img src="${x.receipt}" style="width:100%;max-height:150px;object-fit:contain;background:#0b0d10;border-radius:12px;margin-top:9px">`:''}<div class="actions"><button class="danger" onclick="deleteItem('expenses','${x.id}')">Удалить расход</button></div></div>`).join(''):'<div class="card empty">Расходов пока нет</div>';
+ renderMaintenance();
+ const rem=[...db.reminders].sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
+ document.getElementById('reminderList').innerHTML=rem.length?rem.map(reminderCard).join(''):'<div class="card empty"><div class="big">⏰</div>Напоминаний пока нет</div>';
+ document.getElementById('upcoming').innerHTML=rem.length?rem.slice(0,2).map(reminderCard).join(''):'<div class="card empty">Здесь появятся ближайшие напоминания</div>';
+ const ps=[...db.parts].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ document.getElementById('partsList').innerHTML=ps.length?ps.map(x=>`<div class="card"><div class="row"><b>${esc(x.name)}</b><span class="pill">${esc(x.status||'Установлена')}</span></div><div class="muted small" style="margin-top:6px">${esc(x.brand||'')}${x.article?' · Артикул: '+esc(x.article):''}</div><div class="muted small">${x.date?'Установлена: '+dateFmt(x.date):''}${x.mileage?' · '+Number(x.mileage).toLocaleString('ru-RU')+' км':''}</div>${x.cost?`<div class="money" style="margin-top:7px">${rub(x.cost)}</div>`:''}${x.notes?`<p class="muted small">${esc(x.notes)}</p>`:''}<div class="actions"><button class="secondary" onclick="editPart('${x.id}')">Изменить</button><button class="danger" onclick="deleteItem('parts','${x.id}')">Удалить</button></div></div>`).join(''):'<div class="card empty">Каталог пока пуст</div>';
+ const bs=[...db.battery].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ document.getElementById('batteryLatest').textContent=bs.length?Number(bs[0].voltage).toFixed(2)+' В':'—';
+ document.getElementById('batteryLatestMeta').textContent=bs.length?dateFmt(bs[0].date)+(bs[0].mileage?' · '+Number(bs[0].mileage).toLocaleString('ru-RU')+' км':''):'Добавь первый замер';
+ document.getElementById('batteryList').innerHTML=bs.length?bs.map(x=>`<div class="card"><div class="row"><b>${Number(x.voltage).toFixed(2)} В</b><span class="muted small">${dateFmt(x.date)}</span></div><div class="muted small">${esc(x.condition||'Условия не указаны')}${x.mileage?' · '+Number(x.mileage).toLocaleString('ru-RU')+' км':''}</div>${x.notes?`<p class="muted small">${esc(x.notes)}</p>`:''}<div class="actions"><button class="danger" onclick="deleteItem('battery','${x.id}')">Удалить</button></div></div>`).join(''):'<div class="card empty">Замеров пока нет</div>';
+ const fs=[...db.fuel].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+ document.getElementById('fuelLiters').textContent=fs.reduce((n,x)=>n+(+x.liters||0),0).toFixed(1)+' л';
+ let consumptions=[],lastFullMileage=null,litersSinceFull=0;for(const f of fs){litersSinceFull+=(+f.liters||0);if(f.full==='yes'&&f.mileage){if(lastFullMileage!==null&&(+f.mileage)>lastFullMileage&&litersSinceFull>0)consumptions.push(litersSinceFull/((+f.mileage)-lastFullMileage)*100);lastFullMileage=+f.mileage;litersSinceFull=0}}
+ document.getElementById('fuelAverage').textContent=consumptions.length?(consumptions.reduce((a,b)=>a+b,0)/consumptions.length).toFixed(1)+' л/100 км':'—';
+ document.getElementById('fuelList').innerHTML=[...fs].reverse().map(x=>`<div class="card"><div class="row"><b>${esc(x.station||'Заправка')}</b><b class="money">${rub(x.amount)}</b></div><div class="muted small">${dateFmt(x.date)} · ${Number(x.liters).toFixed(1)} л · ${x.mileage?Number(x.mileage).toLocaleString('ru-RU')+' км':'пробег не указан'}</div><div class="actions"><button class="danger" onclick="deleteItem('fuel','${x.id}')">Удалить</button></div></div>`).join('');
+ const chart=document.getElementById('expenseChart');if(chart){let months=[];for(let i=5;i>=0;i--){let d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);months.push({key:d.toISOString().slice(0,7),label:d.toLocaleDateString('ru-RU',{month:'short'}),value:0})}
+ [...db.expenses.map(x=>({date:x.date,amount:x.amount})),...db.events.map(x=>({date:x.date,amount:x.cost})),...db.fuel.map(x=>({date:x.date,amount:x.amount}))].forEach(x=>{let m=months.find(m=>m.key===(x.date||'').slice(0,7));if(m)m.value+=+x.amount||0});
+ let max=Math.max(1,...months.map(m=>m.value));chart.innerHTML=months.map(m=>`<div style="flex:1;min-width:0;text-align:center;height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:5px"><span style="font-size:9px;color:var(--muted)">${m.value?Math.round(m.value/1000)+'к':''}</span><div style="width:100%;max-width:34px;height:${Math.max(3,m.value/max*82)}px;background:var(--accent);border-radius:7px 7px 2px 2px"></div><span style="font-size:10px;color:var(--muted)">${m.label}</span></div>`).join('')}
+}
+function eventCard(x){return `<div class="card"><div class="row"><span class="pill">${esc(x.category||'Обслуживание')}</span><span class="muted small">${dateFmt(x.date)}</span></div><div class="event-title">${esc(x.title)}</div><div class="muted small">${x.mileage?Number(x.mileage).toLocaleString('ru-RU')+' км · ':''}${esc(x.parts||'')}${x.cost?` · <b class="money">${rub(x.cost)}</b>`:''}</div>${x.notes?`<p class="muted small">${esc(x.notes)}</p>`:''}${x.photo?`<img src="${x.photo}" style="width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-top:8px">`:''}<div class="actions"><button class="secondary" onclick="editEvent('${x.id}')">Изменить</button><button class="danger" onclick="deleteItem('events','${x.id}')">Удалить</button></div></div>`}
+
+function maintenanceState(x){
+ const now=new Date();let dueKm=null,dueDate=null,remainKm=null,remainDays=null;
+ if(x.intervalKm&&x.lastMileage!==''&&x.lastMileage!=null){dueKm=+x.lastMileage+(+x.intervalKm);remainKm=dueKm-(+db.vehicle.mileage||0)}
+ if(x.intervalMonths&&x.lastDate){let d=new Date(x.lastDate+'T00:00:00');d.setMonth(d.getMonth()+ +x.intervalMonths);dueDate=d;remainDays=Math.ceil((d-now)/(86400000))}
+ let overdue=(remainKm!==null&&remainKm<=0)||(remainDays!==null&&remainDays<=0);
+ let soon=!overdue&&((remainKm!==null&&remainKm<=1000)||(remainDays!==null&&remainDays<=30));
+ return {dueKm,dueDate,remainKm,remainDays,overdue,soon};
+}
+function renderMaintenance(){
+ const root=document.getElementById('maintenanceList');if(!root)return;
+ if(!db.maintenance.length){root.innerHTML='<div class="card empty"><div class="big">🧰</div>Регламентов пока нет.<br>Добавь, например, замену масла, тормозной жидкости или свечей и укажи интервалы по руководству именно для своего двигателя.</div>';return}
+ root.innerHTML=db.maintenance.map(x=>{let st=maintenanceState(x),status=st.overdue?'Просрочено':st.soon?'Скоро обслуживание':'В норме',cls=st.overdue?'bad':st.soon?'warn':'ok';
+ let remain=[];if(st.remainKm!==null)remain.push(st.remainKm<=0?'превышение '+Math.abs(st.remainKm).toLocaleString('ru-RU')+' км':'через '+st.remainKm.toLocaleString('ru-RU')+' км');if(st.remainDays!==null)remain.push(st.remainDays<=0?'просрочено на '+Math.abs(st.remainDays)+' дн.':'через '+st.remainDays+' дн.');
+ return `<div class="card"><div class="row"><b>${esc(x.title)}</b><span class="pill ${cls}">${status}</span></div><div class="muted small" style="margin-top:8px">${remain.length?remain.join(' · '):'Интервалы не заданы'}</div><div class="muted small" style="margin-top:6px">Последнее обслуживание: ${x.lastDate?dateFmt(x.lastDate):'дата не указана'}${x.lastMileage!==''&&x.lastMileage!=null?' · '+Number(x.lastMileage).toLocaleString('ru-RU')+' км':''}</div><div class="muted small">Следующее: ${st.dueKm!==null?Number(st.dueKm).toLocaleString('ru-RU')+' км':''}${st.dueKm!==null&&st.dueDate?' · ':''}${st.dueDate?st.dueDate.toLocaleDateString('ru-RU'):''}</div>${x.notes?`<p class="muted small">${esc(x.notes)}</p>`:''}<div class="actions"><button class="primary" onclick="completeMaintenance('${x.id}')">Отметить выполненным</button><button class="secondary" onclick="openMaintenance('${x.id}')">Изменить</button><button class="danger" onclick="deleteMaintenance('${x.id}')">Удалить</button></div></div>`}).join('');
+}
+function openMaintenance(id=null){
+ let x=id?db.maintenance.find(a=>a.id===id):{};
+ modal(id?'Изменить регламент':'Новый регламент ТО',`<form onsubmit="saveMaintenance(event,'${id||''}')">
+ <div class="field"><label>Что обслуживаем *</label><input name="title" required value="${esc(x.title||'')}" placeholder="Например, моторное масло и фильтр"></div>
+ <div class="two"><div class="field"><label>Интервал, км</label><input name="intervalKm" type="number" min="1" value="${x.intervalKm||''}" placeholder="Например, 8000"></div><div class="field"><label>Интервал, месяцев</label><input name="intervalMonths" type="number" min="1" value="${x.intervalMonths||''}" placeholder="Например, 12"></div></div>
+ <div class="muted small">Можно задать один интервал или оба. Обслуживание наступит, когда будет достигнут любой из них.</div>
+ <div class="two"><div class="field"><label>Последняя замена / проверка</label><input name="lastDate" type="date" value="${x.lastDate||''}"></div><div class="field"><label>Пробег на тот момент</label><input name="lastMileage" type="number" min="0" value="${x.lastMileage??db.vehicle.mileage??''}"></div></div>
+ <div class="field"><label>Комментарий</label><textarea name="notes" placeholder="Марка масла, допуск, артикул детали...">${esc(x.notes||'')}</textarea></div>
+ <button class="primary" style="width:100%">Сохранить регламент</button></form>`);
+}
+function saveMaintenance(e,id){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());if(!x.intervalKm&&!x.intervalMonths){showToast('Укажи интервал по километрам или месяцам');return}x.id=id||crypto.randomUUID();if(id)db.maintenance=db.maintenance.map(a=>a.id===id?x:a);else db.maintenance.push(x);save();closeModal();showToast('Регламент сохранён')}
+function completeMaintenance(id){let x=db.maintenance.find(a=>a.id===id);if(!x)return;let date=today(),mileage=db.vehicle.mileage||'';if(!confirm(`Отметить «${x.title}» выполненным ${dateFmt(date)} на пробеге ${mileage?Number(mileage).toLocaleString('ru-RU')+' км':'без указанного пробега'}?`))return;x.lastDate=date;x.lastMileage=mileage;db.events.push({id:crypto.randomUUID(),title:'ТО: '+x.title,category:'ТО',date,mileage,cost:'',parts:'',notes:'Отмечено выполненным в регламенте обслуживания'});save();showToast('ТО выполнено, следующий интервал рассчитан')}
+function deleteMaintenance(id){if(!confirm('Удалить этот регламент ТО?'))return;db.maintenance=db.maintenance.filter(x=>x.id!==id);save();showToast('Регламент удалён')}
+function reminderCard(x){let due=x.date&&x.date<=new Date().toISOString().slice(0,10);let kmDue=x.mileage&&db.vehicle.mileage&&+db.vehicle.mileage>=+x.mileage;return `<div class="card"><div class="row"><b>${esc(x.title)}</b><span class="pill ${due||kmDue?'warn':'ok'}">${due||kmDue?'Пора проверить':'Запланировано'}</span></div><div class="muted small" style="margin-top:7px">${x.date?'Дата: '+dateFmt(x.date):''}${x.mileage?' · Пробег: '+Number(x.mileage).toLocaleString('ru-RU')+' км':''}</div>${x.notes?`<p class="muted small">${esc(x.notes)}</p>`:''}<div class="actions"><button class="danger" onclick="deleteItem('reminders','${x.id}')">Удалить</button></div></div>`}
+function modal(title,body){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function today(){return new Date().toISOString().slice(0,10)}
+function openEvent(id=null){let x=id?db.events.find(a=>a.id===id):{};modal(id?'Изменить запись':'Новое обслуживание',`
+<form onsubmit="saveEvent(event,'${id||''}')">
+<div class="field"><label>Что делали *</label><input name="title" required value="${esc(x.title||'')}" placeholder="Например, замена масла"></div>
+<div class="two"><div class="field"><label>Категория</label><select name="category">${['ТО','Двигатель','Трансмиссия','Тормоза','Подвеска','Электрика','Кузов и покраска','Колёса и шины','Другое'].map(a=>`<option ${x.category===a?'selected':''}>${a}</option>`).join('')}</select></div><div class="field"><label>Дата</label><input name="date" type="date" value="${x.date||today()}"></div></div>
+<div class="two"><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" value="${x.mileage||db.vehicle.mileage||''}" placeholder="Например, 185000"></div><div class="field"><label>Стоимость работ, ₽</label><input name="cost" type="number" min="0" step="1" value="${x.cost||''}" placeholder="0"></div></div>
+<div class="field"><label>Запчасти и материалы</label><input name="parts" value="${esc(x.parts||'')}" placeholder="Масло, фильтр, колодки..."></div>
+<div class="field"><label>Описание / заметки</label><textarea name="notes" placeholder="Что сделали, какие нюансы...">${esc(x.notes||'')}</textarea></div>
+<div class="field"><label>Фото (необязательно)</label><input type="file" name="photo" accept="image/*" onchange="previewPhoto(event)"><input type="hidden" name="photoData" value="${x.photo||''}"><div id="photoPreview">${x.photo?'<img src="'+x.photo+'" style="width:100%;max-height:130px;object-fit:cover;border-radius:12px">':''}</div></div>
+<button class="primary" style="width:100%">Сохранить запись</button></form>`)}
+function previewPhoto(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(1,1000/im.width);c.width=im.width*scale;c.height=im.height*scale;c.getContext('2d').drawImage(im,0,0,c.width,c.height);let data=c.toDataURL('image/jpeg',.72);document.querySelector('[name=photoData]').value=data;document.getElementById('photoPreview').innerHTML=`<img src="${data}" style="width:100%;max-height:130px;object-fit:cover;border-radius:12px">`};im.src=r.result};r.readAsDataURL(f)}
+function saveEvent(e,id){e.preventDefault();let f=new FormData(e.target),x=Object.fromEntries(f.entries());let item={...x,id:id||crypto.randomUUID(),photo:x.photoData||''};delete item.photoData;delete item.photo;if(id)db.events=db.events.map(a=>a.id===id?item:a);else db.events.push(item);if(item.mileage&&(!db.vehicle.mileage||+item.mileage>+db.vehicle.mileage))db.vehicle.mileage=item.mileage;save();closeModal();showToast('Запись сохранена')}
+function editEvent(id){openEvent(id)}
+function openExpense(){modal('Новый расход',`<form onsubmit="saveExpense(event)"><div class="field"><label>На что потрачено *</label><input name="title" required placeholder="Например, аккумулятор"></div><div class="two"><div class="field"><label>Сумма, ₽ *</label><input name="amount" type="number" min="0" step="1" required placeholder="0"></div><div class="field"><label>Дата</label><input name="date" type="date" value="${today()}"></div></div><div class="field"><label>Категория</label><select name="category"><option>Запчасти</option><option>Расходники</option><option>Топливо</option><option>Мойка</option><option>Страховка</option><option>Штрафы</option><option>Другое</option></select></div><div class="field"><label>Комментарий</label><textarea name="notes"></textarea></div><div class="field"><label>Фото чека (можно снять камерой)</label><input type="file" accept="image/*" capture="environment" onchange="compressImage(event,'receiptData')"><input type="hidden" name="receiptData"><div id="receiptPreview"></div><div class="muted small">Фото сохранится вместе с расходом. Автоматическое распознавание текста пока не подключено.</div></div><button class="primary" style="width:100%">Сохранить расход</button></form>`)}
+function saveExpense(e){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());x.receipt=x.receiptData||'';delete x.receiptData;x.id=crypto.randomUUID();db.expenses.push(x);save();closeModal();showToast('Расход добавлен')}
+function openReminder(){modal('Новое напоминание',`<form onsubmit="saveReminder(event)"><div class="field"><label>Что нужно сделать *</label><input name="title" required placeholder="Например, заменить масло"></div><div class="two"><div class="field"><label>Дата</label><input name="date" type="date"></div><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" placeholder="Например, 190000"></div></div><div class="field"><label>Комментарий</label><textarea name="notes" placeholder="Дополнительная информация"></textarea></div><button class="primary" style="width:100%">Сохранить напоминание</button></form>`)}
+function saveReminder(e){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());x.id=crypto.randomUUID();db.reminders.push(x);save();closeModal();showToast('Напоминание добавлено')}
+function deleteItem(type,id){if(!confirm('Удалить эту запись?'))return;db[type]=db[type].filter(x=>x.id!==id);save();showToast('Удалено')}
+
+
+function compressImage(event,targetName,callback){let f=event.target.files&&event.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(1,1400/im.width);c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);c.getContext('2d').drawImage(im,0,0,c.width,c.height);let data=c.toDataURL('image/jpeg',.76);if(callback)callback(data);else{let field=document.querySelector(`[name="${targetName}"]`);if(field)field.value=data;let preview=document.getElementById(targetName==='receiptData'?'receiptPreview':'galleryPreview');if(preview)preview.innerHTML=`<img src="${data}" style="width:100%;max-height:150px;object-fit:contain;border-radius:12px;margin-top:8px">`}};im.src=reader.result};reader.readAsDataURL(f)}
+function openGalleryAdd(){modal('Добавить фото',`<form onsubmit="saveGallery(event)"><div class="field"><label>Фотография *</label><input type="file" accept="image/*" capture="environment" required onchange="compressImage(event,'galleryData')"><input type="hidden" name="galleryData"><div id="galleryPreview"></div></div><div class="field"><label>Подпись</label><input name="caption" placeholder="Например, после покраски суппортов"></div><div class="field"><label>Дата</label><input name="date" type="date" value="${today()}"></div><button class="primary" style="width:100%">Сохранить фото</button></form>`)}
+function saveGallery(e){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());if(!x.galleryData){showToast('Сначала выбери фотографию');return}db.gallery.push({id:crypto.randomUUID(),photo:x.galleryData,caption:x.caption,date:x.date});save();closeModal();showToast('Фото добавлено в галерею')}
+function editSystem(name){let x=db.systems.find(a=>a.name===name)||{};modal(name,`<form onsubmit="saveSystem(event,'${name}')"><div class="field"><label>Состояние</label><select name="status"><option ${x.status==='Исправно'?'selected':''}>Исправно</option><option ${x.status==='Требует внимания'?'selected':''}>Требует внимания</option><option ${x.status==='На ремонте'?'selected':''}>На ремонте</option><option ${x.status==='Не проверено'?'selected':''}>Не проверено</option></select></div><div class="two"><div class="field"><label>Дата проверки</label><input name="date" type="date" value="${x.date||today()}"></div><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" value="${x.mileage||db.vehicle.mileage||''}"></div></div><div class="field"><label>Заметки / что делали</label><textarea name="notes" placeholder="Симптомы, детали, рекомендации...">${esc(x.notes||'')}</textarea></div><button class="primary" style="width:100%">Сохранить состояние</button></form>`)}
+function saveSystem(e,name){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());x.name=name;let i=db.systems.findIndex(a=>a.name===name);if(i>=0)db.systems[i]=x;else db.systems.push(x);save();closeModal();showToast('Состояние обновлено')}
+
+function openPart(id=null){let x=id?db.parts.find(a=>a.id===id):{};modal(id?'Изменить деталь':'Добавить деталь',`<form onsubmit="savePart(event,'${id||''}')"><div class="field"><label>Название детали *</label><input name="name" required value="${esc(x.name||'')}" placeholder="Передние тормозные колодки"></div><div class="two"><div class="field"><label>Производитель</label><input name="brand" value="${esc(x.brand||'')}"></div><div class="field"><label>Артикул</label><input name="article" value="${esc(x.article||'')}"></div></div><div class="two"><div class="field"><label>Дата установки / покупки</label><input name="date" type="date" value="${x.date||today()}"></div><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" value="${x.mileage||db.vehicle.mileage||''}"></div></div><div class="two"><div class="field"><label>Стоимость, ₽</label><input name="cost" type="number" min="0" value="${x.cost||''}"></div><div class="field"><label>Статус</label><select name="status"><option ${x.status==='Установлена'?'selected':''}>Установлена</option><option ${x.status==='В запасе'?'selected':''}>В запасе</option><option ${x.status==='Снята'?'selected':''}>Снята</option></select></div></div><div class="field"><label>Примечания</label><textarea name="notes">${esc(x.notes||'')}</textarea></div><button class="primary" style="width:100%">Сохранить деталь</button></form>`)}
+function savePart(e,id){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());x.id=id||crypto.randomUUID();if(id)db.parts=db.parts.map(a=>a.id===id?x:a);else db.parts.push(x);save();closeModal();showToast('Деталь сохранена')}
+function editPart(id){openPart(id)}
+function openBattery(){modal('Замер аккумулятора',`<form onsubmit="saveBattery(event)"><div class="two"><div class="field"><label>Напряжение, В *</label><input name="voltage" type="number" min="0" max="20" step="0.01" required placeholder="12.65"></div><div class="field"><label>Дата замера</label><input name="date" type="date" value="${today()}"></div></div><div class="field"><label>Условия замера</label><select name="condition"><option>После стоянки</option><option>Сразу после поездки</option><option>После зарядки</option><option>При работающем двигателе</option><option>Во время запуска</option><option>Другое</option></select></div><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" value="${db.vehicle.mileage||''}"></div><div class="field"><label>Комментарий</label><textarea name="notes" placeholder="Температура, время после поездки, прибор..."></textarea></div><button class="primary" style="width:100%">Сохранить замер</button></form>`)}
+function saveBattery(e){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());x.id=crypto.randomUUID();db.battery.push(x);save();closeModal();showToast('Замер сохранён')}
+function openFuel(){modal('Заправка',`<form onsubmit="saveFuel(event)"><div class="two"><div class="field"><label>Литры *</label><input name="liters" type="number" min="0.01" step="0.01" required placeholder="45.5"></div><div class="field"><label>Сумма, ₽ *</label><input name="amount" type="number" min="0" required placeholder="3000"></div></div><div class="two"><div class="field"><label>Дата</label><input name="date" type="date" value="${today()}"></div><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" value="${db.vehicle.mileage||''}"></div></div><div class="field"><label>АЗС / комментарий</label><input name="station" placeholder="Название АЗС"></div><div class="field"><label>Бак заправлен до полного?</label><select name="full"><option value="yes">Да, полный бак</option><option value="no">Нет, частичная заправка</option></select></div><button class="primary" style="width:100%">Сохранить заправку</button></form>`)}
+function saveFuel(e){e.preventDefault();let x=Object.fromEntries(new FormData(e.target).entries());x.id=crypto.randomUUID();db.fuel.push(x);save();closeModal();showToast('Заправка сохранена')}
+
+function editVehicle(){let v=db.vehicle;modal('Профиль автомобиля',`<form onsubmit="saveVehicle(event)"><div class="two"><div class="field"><label>Марка</label><input name="make" value="${esc(v.make)}"></div><div class="field"><label>Модель</label><input name="model" value="${esc(v.model)}"></div></div><div class="two"><div class="field"><label>Год выпуска</label><input name="year" type="number" value="${esc(v.year)}"></div><div class="field"><label>Цвет</label><input name="color" value="${esc(v.color)}"></div></div><div class="field"><label>Двигатель</label><input name="engine" value="${esc(v.engine)}" placeholder="Объём, тип, код"></div><div class="field"><label>VIN</label><input name="vin" value="${esc(v.vin)}"></div><div class="two"><div class="field"><label>Госномер</label><input name="plate" value="${esc(v.plate)}"></div><div class="field"><label>Пробег, км</label><input name="mileage" type="number" min="0" value="${esc(v.mileage)}"></div></div><button class="primary" style="width:100%">Сохранить профиль</button></form>`)}
+function saveVehicle(e){e.preventDefault();db.vehicle={...db.vehicle,...Object.fromEntries(new FormData(e.target).entries())};save();closeModal();showToast('Профиль обновлён')}
+function editMileage(){modal('Обновить пробег',`<form onsubmit="saveMileage(event)"><div class="field"><label>Текущий пробег, км</label><input name="mileage" type="number" min="0" required value="${esc(db.vehicle.mileage)}"></div><button class="primary" style="width:100%">Сохранить</button></form>`)}
+function saveMileage(e){e.preventDefault();db.vehicle.mileage=new FormData(e.target).get('mileage');save();closeModal();showToast('Пробег обновлён')}
+function saveVehicleNotes(){db.vehicle.notes=document.getElementById('vehicleNotes').value;save();showToast('Заметки сохранены')}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='moj-garazh-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href);showToast('Резервная копия подготовлена')}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.vehicle||!Array.isArray(x.events)||!Array.isArray(x.expenses)||!Array.isArray(x.reminders))throw Error();db={...structuredClone(defaults),...x,vehicle:{...defaults.vehicle,...(x.vehicle||{})},events:x.events||[],expenses:x.expenses||[],reminders:x.reminders||[],maintenance:x.maintenance||[],parts:x.parts||[],battery:x.battery||[],fuel:x.fuel||[],gallery:x.gallery||[],systems:x.systems||[]};save();showToast('Данные восстановлены')}catch(err){alert('Не удалось прочитать файл резервной копии')}};r.readAsText(f);e.target.value=''}
+function resetAll(){if(!confirm('Точно удалить профиль, историю, расходы и напоминания? Это действие нельзя отменить.'))return;db=structuredClone(defaults);save();showPage('dashboard');showToast('Данные очищены')}
+render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
