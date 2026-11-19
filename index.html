@@ -27,17 +27,23 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 .garage3d-head{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:2}
 .garage3d-head strong{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d8e0e8}
 .garage3d-head span{font-size:10px;color:#ff9a70;letter-spacing:1px}
-.garage-stage{height:280px;position:relative;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;margin:3px -4px 0}
+.garage-stage{height:280px;position:relative;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;margin:3px -4px 0;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}.garage-stage.is-dragging{cursor:grabbing}.car-turntable{position:relative;z-index:1;width:100%;height:255px;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;transition:transform .12s ease-out;will-change:transform}
 .garage-floor{position:absolute;left:5%;right:5%;bottom:16px;height:76px;border-radius:50%;background:radial-gradient(ellipse,#ff6b3540 0%,#ff6b3510 43%,transparent 72%);transform:rotateX(68deg) translateZ(-15px);border-bottom:1px solid #ff8a5233}
-.garage-car{position:relative;z-index:1;width:100%;height:255px;object-fit:contain;object-position:center;filter:drop-shadow(0 22px 18px #000c) drop-shadow(0 0 12px #ff6b3533);transform:translateZ(45px) rotateY(-5deg);animation:carFloat 6s ease-in-out infinite;pointer-events:none}
-@keyframes carFloat{0%,100%{transform:translateY(0) translateZ(45px) rotateY(-5deg)}50%{transform:translateY(-5px) translateZ(55px) rotateY(2deg)}}
+.garage-car{position:relative;z-index:1;width:100%;height:255px;object-fit:contain;object-position:center;filter:drop-shadow(0 22px 18px #000c) drop-shadow(0 0 12px #ff6b3566);transform:translateZ(45px);animation:carFloat 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes carFloat{0%,100%{transform:translateY(0) translateZ(45px) scale(1)}50%{transform:translateY(-9px) translateZ(58px) scale(1.015)}}
+.garage-stage:after{content:"";position:absolute;inset:12% 5%;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,#ff7b3520,transparent 65%);animation:garagePulse 4s ease-in-out infinite}
+@keyframes garagePulse{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
+.garage-rotate-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:-2px 0 8px;color:#aeb8c4;font-size:10px;letter-spacing:.4px}
+.garage-rotate-controls{display:flex;justify-content:center;gap:9px;margin:0 0 10px}
+.garage-rotate-controls button{border:1px solid #ffffff25;background:linear-gradient(145deg,#28313c,#11161d);color:#f5f7fa;border-radius:12px;padding:7px 13px;font-size:11px;box-shadow:0 5px 12px #0007}
+.garage-rotate-controls button:active{transform:scale(.96);border-color:#ff895d}
 .garage-menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative;z-index:3;transform:translateZ(35px)}
 .garage-menu button{min-width:0;min-height:58px;border:1px solid #ffffff24;border-radius:15px;background:linear-gradient(145deg,#29323ddd,#11161deF);color:#f3f6f9;box-shadow:0 8px 14px #0008,inset 0 1px 0 #ffffff1c;padding:8px 5px;font-size:10px;font-weight:750;letter-spacing:.2px;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s,box-shadow .2s}
 .garage-menu button:active{transform:translateY(2px) scale(.97);border-color:#ff8a52;box-shadow:0 3px 7px #0009}
 .garage-menu button span{display:block;font-size:18px;margin-bottom:3px;filter:drop-shadow(0 2px 5px #ff6b3566)}
 .garage3d-foot{display:flex;justify-content:space-between;gap:8px;margin-top:10px;color:#8f9aa7;font-size:9px;letter-spacing:1px;text-transform:uppercase}
 .garage3d-foot b{color:#ff895d;font-weight:800}
-@media(prefers-reduced-motion:reduce){.garage-car{animation:none}.garage-menu button{transition:none}}
+@media(prefers-reduced-motion:reduce){.garage-car,.garage-stage:after{animation:none}.garage-menu button{transition:none}}
 .hero-top{padding:18px 18px 0;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .eyebrow{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
 .carname{font-size:22px;font-weight:800;margin-top:6px}.car-meta{font-size:13px;color:#aeb8c4;margin-top:4px}
@@ -81,7 +87,8 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 <section id="dashboard" class="page active">
 <div class="garage3d" aria-label="Интерактивный 3D гараж">
  <div class="garage3d-head"><strong>MY GARAGE · 3D SPACE</strong><span>● ONLINE</span></div>
- <div class="garage-stage"><div class="garage-floor"></div><img class="garage-car" src="civic-photo.jpg" alt="Твой оранжевый Honda Civic 5D" loading="eager"></div>
+ <div class="garage-stage" id="garageStage" aria-label="Потяни пальцем влево или вправо, чтобы наклонить вид автомобиля"><div class="garage-floor"></div><div class="car-turntable" id="carTurntable"><img class="garage-car" src="civic-photo.jpg" alt="Твой оранжевый Honda Civic 5D" loading="eager" draggable="false"></div></div>
+ <div class="garage-rotate-hint">↔ Проведи пальцем по машине, чтобы менять угол обзора</div><div class="garage-rotate-controls"><button type="button" onclick="rotateGarage(-12)">↶ Повернуть</button><button type="button" onclick="resetGarageView()">Сбросить вид</button><button type="button" onclick="rotateGarage(12)">Повернуть ↷</button></div>
  <div class="garage-menu">
   <button onclick="showPage('vehicle')"><span>🚘</span>АВТОМОБИЛЬ</button>
   <button onclick="showPage('history')"><span>🛠️</span>ИСТОРИЯ</button>
@@ -296,6 +303,14 @@ function saveVehicleNotes(){db.vehicle.notes=document.getElementById('vehicleNot
 function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='moj-garazh-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href);showToast('Резервная копия подготовлена')}
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.vehicle||!Array.isArray(x.events)||!Array.isArray(x.expenses)||!Array.isArray(x.reminders))throw Error();db={...structuredClone(defaults),...x,vehicle:{...defaults.vehicle,...(x.vehicle||{})},events:x.events||[],expenses:x.expenses||[],reminders:x.reminders||[],maintenance:x.maintenance||[],parts:x.parts||[],battery:x.battery||[],fuel:x.fuel||[],gallery:x.gallery||[],systems:x.systems||[]};save();showToast('Данные восстановлены')}catch(err){alert('Не удалось прочитать файл резервной копии')}};r.readAsText(f);e.target.value=''}
 function resetAll(){if(!confirm('Точно удалить профиль, историю, расходы и напоминания? Это действие нельзя отменить.'))return;db=structuredClone(defaults);save();showPage('dashboard');showToast('Данные очищены')}
+
+// Interactive perspective control for the car photo (not a true 3D mesh)
+let garageYaw=0,garagePitch=0,garageDrag=null;
+function paintGarageView(){const el=document.getElementById('carTurntable');if(el)el.style.transform=`perspective(850px) rotateY(${garageYaw}deg) rotateX(${garagePitch}deg) translateZ(18px)`;}
+function rotateGarage(delta){garageYaw=Math.max(-32,Math.min(32,garageYaw+delta));paintGarageView();}
+function resetGarageView(){garageYaw=0;garagePitch=0;paintGarageView();}
+(function initGarageInteraction(){const stage=document.getElementById('garageStage');if(!stage)return;stage.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;garageDrag={x:e.clientX,y:e.clientY,yaw:garageYaw,pitch:garagePitch};stage.classList.add('is-dragging');stage.setPointerCapture?.(e.pointerId)});stage.addEventListener('pointermove',e=>{if(!garageDrag)return;garageYaw=Math.max(-32,Math.min(32,garageDrag.yaw+(e.clientX-garageDrag.x)*.32));garagePitch=Math.max(-7,Math.min(7,garageDrag.pitch-(e.clientY-garageDrag.y)*.12));paintGarageView()});const end=()=>{garageDrag=null;stage.classList.remove('is-dragging')};stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);stage.addEventListener('lostpointercapture',end)})();
+
 render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
