@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Мой гараж">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Мой гараж</title>
 <style>
 :root{color-scheme:dark;--bg:#090b0e;--panel:#14181e;--panel2:#1b2129;--line:#29313b;--text:#f2f5f8;--muted:#929daa;--accent:#ff6b35;--green:#48c78e;--red:#ff626e;--yellow:#f5bd4f}
@@ -18,6 +20,24 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 .brand{font-size:12px;letter-spacing:2.5px;color:var(--muted);font-weight:800}.brand b{color:var(--accent)}
 h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;width:44px;height:44px;font-size:19px}
 .hero{border:1px solid #343b45;border-radius:23px;overflow:hidden;background:linear-gradient(135deg,#202832,#11151b);position:relative}
+/* 3D garage navigation */
+.garage3d{position:relative;isolation:isolate;margin:2px 0 18px;padding:14px;border:1px solid #3b4653;border-radius:26px;overflow:hidden;background:radial-gradient(ellipse at 50% 58%,#39424b 0%,#1b222b 42%,#0b0e13 78%);box-shadow:inset 0 1px 0 #ffffff18,0 18px 38px #0008;perspective:900px}
+.garage3d:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 19%,#ffffff08 19.2% 19.5%,transparent 19.8% 39%),linear-gradient(180deg,#080a0eaa,transparent 40%,#050609aa);z-index:-1}
+.garage3d:after{content:"";position:absolute;left:8%;right:8%;bottom:18px;height:38px;background:#ff6b35;filter:blur(34px);opacity:.28;z-index:-1}
+.garage3d-head{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:2}
+.garage3d-head strong{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d8e0e8}
+.garage3d-head span{font-size:10px;color:#ff9a70;letter-spacing:1px}
+.garage-stage{height:280px;position:relative;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;margin:3px -4px 0}
+.garage-floor{position:absolute;left:5%;right:5%;bottom:16px;height:76px;border-radius:50%;background:radial-gradient(ellipse,#ff6b3540 0%,#ff6b3510 43%,transparent 72%);transform:rotateX(68deg) translateZ(-15px);border-bottom:1px solid #ff8a5233}
+.garage-car{position:relative;z-index:1;width:100%;height:255px;object-fit:contain;object-position:center;filter:drop-shadow(0 22px 18px #000c) drop-shadow(0 0 12px #ff6b3533);transform:translateZ(45px) rotateY(-5deg);animation:carFloat 6s ease-in-out infinite;pointer-events:none}
+@keyframes carFloat{0%,100%{transform:translateY(0) translateZ(45px) rotateY(-5deg)}50%{transform:translateY(-5px) translateZ(55px) rotateY(2deg)}}
+.garage-menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative;z-index:3;transform:translateZ(35px)}
+.garage-menu button{min-width:0;min-height:58px;border:1px solid #ffffff24;border-radius:15px;background:linear-gradient(145deg,#29323ddd,#11161deF);color:#f3f6f9;box-shadow:0 8px 14px #0008,inset 0 1px 0 #ffffff1c;padding:8px 5px;font-size:10px;font-weight:750;letter-spacing:.2px;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s,box-shadow .2s}
+.garage-menu button:active{transform:translateY(2px) scale(.97);border-color:#ff8a52;box-shadow:0 3px 7px #0009}
+.garage-menu button span{display:block;font-size:18px;margin-bottom:3px;filter:drop-shadow(0 2px 5px #ff6b3566)}
+.garage3d-foot{display:flex;justify-content:space-between;gap:8px;margin-top:10px;color:#8f9aa7;font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.garage3d-foot b{color:#ff895d;font-weight:800}
+@media(prefers-reduced-motion:reduce){.garage-car{animation:none}.garage-menu button{transition:none}}
 .hero-top{padding:18px 18px 0;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .eyebrow{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
 .carname{font-size:22px;font-weight:800;margin-top:6px}.car-meta{font-size:13px;color:#aeb8c4;margin-top:4px}
@@ -35,8 +55,8 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 .pill{font-size:10px;padding:5px 8px;border-radius:99px;background:#26303a;color:#cbd4de;white-space:nowrap}
 .pill.ok{background:#153729;color:#6fe0aa}.pill.warn{background:#3a2e16;color:#ffd477}.pill.bad{background:#3d2025;color:#ff9ba2}
 .event-title{font-weight:750;font-size:15px;margin:8px 0 4px}.money{font-weight:800;color:var(--accent)}
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#101419f2;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:9px 8px calc(9px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);max-width:760px;margin:auto}
-.nav button{background:none;border:0;color:#7f8a97;font-size:10px;font-weight:650;padding:4px 0}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{color:var(--accent)}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#101419f2;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:9px 8px calc(9px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(6,minmax(0,1fr));max-width:760px;margin:auto}
+.nav button{background:none;border:0;color:#7f8a97;font-size:9px;font-weight:650;padding:4px 0}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{color:var(--accent)}
 .primary{background:var(--accent);border:0;color:#17100c;font-weight:850;border-radius:14px;padding:13px 16px}
 .secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:13px;padding:11px 13px}
 .danger{color:var(--red);background:#321c20;border:1px solid #593038;border-radius:12px;padding:10px}
@@ -59,9 +79,20 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 <header><div><div class="brand"><b>●</b> МОЙ ГАРАЖ</div><h1 id="pageTitle">Обзор</h1></div><button class="iconbtn" onclick="openSettings()" aria-label="Настройки">⚙</button></header>
 
 <section id="dashboard" class="page active">
+<div class="garage3d" aria-label="Интерактивный 3D гараж">
+ <div class="garage3d-head"><strong>MY GARAGE · 3D SPACE</strong><span>● ONLINE</span></div>
+ <div class="garage-stage"><div class="garage-floor"></div><img class="garage-car" src="civic-photo.jpg" alt="Твой оранжевый Honda Civic 5D" loading="eager"></div>
+ <div class="garage-menu">
+  <button onclick="showPage('vehicle')"><span>🚘</span>АВТОМОБИЛЬ</button>
+  <button onclick="showPage('history')"><span>🛠️</span>ИСТОРИЯ</button>
+  <button onclick="showPage('parts')"><span>⚙️</span>ЗАПЧАСТИ</button>
+  <button onclick="showPage('expenses')"><span>₽</span>РАСХОДЫ</button>
+  <button onclick="showPage('reminders')"><span>◷</span>СЕРВИС / ТО</button>
+  <button onclick="openBattery();showPage('reminders')"><span>🔋</span>АККУМУЛЯТОР</button>
+ </div>
+ <div class="garage3d-foot"><span>HONDA CIVIC 5D · 2008</span><b>ORANGE EDITION</b></div>
+</div>
 <div class="hero">
- <div class="hero-top"><div><div class="eyebrow">Твой автомобиль</div><div class="carname" id="heroName">Honda Civic 5D</div><div class="car-meta" id="heroMeta">2008 · Оранжевый</div></div><span class="pill ok">В гараже</span></div>
- <img class="car-art" src="civic-photo.jpg" alt="Оранжевый Honda Civic 5D Дмитрия" loading="eager">
  <div class="hero-stats"><div class="stat"><strong id="heroMileage">—</strong><span>Пробег, км</span></div><div class="stat"><strong id="heroSpent">0 ₽</strong><span>Расходы</span></div><div class="stat"><strong id="heroEvents">0</strong><span>Записей</span></div></div>
 </div>
 <div class="section-head"><h2>Быстрые действия</h2></div>
