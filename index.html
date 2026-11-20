@@ -27,13 +27,13 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 .garage3d-head{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:2}
 .garage3d-head strong{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d8e0e8}
 .garage3d-head span{font-size:10px;color:#ff9a70;letter-spacing:1px}
-.garage-stage{height:280px;position:relative;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;margin:3px -4px 0;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}.garage-stage.is-dragging{cursor:grabbing}.car-turntable{position:relative;z-index:1;width:100%;height:255px;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;transition:transform .12s ease-out;will-change:transform}
+.garage-stage{height:280px;position:relative;display:flex;align-items:center;justify-content:center;margin:8px -4px 0;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;overflow:hidden;border-radius:16px;background:#080b10}.garage-stage.is-dragging{cursor:grabbing}.car-turntable{position:relative;z-index:1;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:opacity .22s ease,transform .22s ease;will-change:opacity,transform}.garage-car{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;object-position:center center;filter:drop-shadow(0 18px 16px #000b) saturate(1.08);transform:translateZ(0);animation:carFloat 4.5s ease-in-out infinite;pointer-events:none}.garage-car.is-changing{opacity:.18;transform:scale(.97)}.garage-view-label{position:absolute;left:10px;bottom:10px;z-index:3;padding:6px 9px;border:1px solid #ffffff25;border-radius:99px;background:#080b10c9;color:#f3f6f9;font-size:10px;backdrop-filter:blur(8px)}.garage-view-count{position:absolute;right:10px;bottom:10px;z-index:3;padding:6px 9px;border-radius:99px;background:#080b10c9;color:#d5dce4;font-size:10px}
 .garage-floor{position:absolute;left:5%;right:5%;bottom:16px;height:76px;border-radius:50%;background:radial-gradient(ellipse,#ff6b3540 0%,#ff6b3510 43%,transparent 72%);transform:rotateX(68deg) translateZ(-15px);border-bottom:1px solid #ff8a5233}
-.garage-car{position:relative;z-index:1;width:100%;height:255px;object-fit:contain;object-position:center;filter:drop-shadow(0 22px 18px #000c) drop-shadow(0 0 12px #ff6b3566);transform:translateZ(45px);animation:carFloat 4.5s ease-in-out infinite;pointer-events:none}
+
 @keyframes carFloat{0%,100%{transform:translateY(0) translateZ(45px) scale(1)}50%{transform:translateY(-9px) translateZ(58px) scale(1.015)}}
 .garage-stage:after{content:"";position:absolute;inset:12% 5%;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,#ff7b3520,transparent 65%);animation:garagePulse 4s ease-in-out infinite}
 @keyframes garagePulse{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
-.garage-rotate-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:-2px 0 8px;color:#aeb8c4;font-size:10px;letter-spacing:.4px}
+.garage-rotate-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:9px 0 8px;color:#aeb8c4;font-size:10px;letter-spacing:.4px}.garage-angle-dots{display:flex;justify-content:center;gap:7px;margin:0 0 10px}.garage-angle-dots button{width:7px;height:7px;min-width:7px;padding:0;border:0;border-radius:50%;background:#65717f;opacity:.65}.garage-angle-dots button.active{width:22px;border-radius:99px;background:var(--accent);opacity:1}
 .garage-rotate-controls{display:flex;justify-content:center;gap:9px;margin:0 0 10px}
 .garage-rotate-controls button{border:1px solid #ffffff25;background:linear-gradient(145deg,#28313c,#11161d);color:#f5f7fa;border-radius:12px;padding:7px 13px;font-size:11px;box-shadow:0 5px 12px #0007}
 .garage-rotate-controls button:active{transform:scale(.96);border-color:#ff895d}
@@ -47,7 +47,7 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 .hero-top{padding:18px 18px 0;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .eyebrow{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
 .carname{font-size:22px;font-weight:800;margin-top:6px}.car-meta{font-size:13px;color:#aeb8c4;margin-top:4px}
-.car-art{display:block;width:100%;height:190px;object-fit:cover;object-position:center 58%;filter:drop-shadow(0 12px 14px #0008)}
+.car-art{display:block;width:100%;height:190px;object-fit:contain;object-position:center center;filter:drop-shadow(0 12px 14px #0008)}
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #343b45;background:#11161c}
 .stat{padding:13px 10px;text-align:center;border-right:1px solid #343b45}.stat:last-child{border:0}
 .stat strong{display:block;font-size:17px}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
@@ -87,8 +87,8 @@ h1{font-size:29px;letter-spacing:-.8px;margin:5px 0 0}.iconbtn{border:1px solid 
 <section id="dashboard" class="page active">
 <div class="garage3d" aria-label="Интерактивный 3D гараж">
  <div class="garage3d-head"><strong>MY GARAGE · 3D SPACE</strong><span>● ONLINE</span></div>
- <div class="garage-stage" id="garageStage" aria-label="Потяни пальцем влево или вправо, чтобы наклонить вид автомобиля"><div class="garage-floor"></div><div class="car-turntable" id="carTurntable"><img class="garage-car" src="civic-photo.jpg" alt="Твой оранжевый Honda Civic 5D" loading="eager" draggable="false"></div></div>
- <div class="garage-rotate-hint">↔ Проведи пальцем по машине, чтобы менять угол обзора</div><div class="garage-rotate-controls"><button type="button" onclick="rotateGarage(-12)">↶ Повернуть</button><button type="button" onclick="resetGarageView()">Сбросить вид</button><button type="button" onclick="rotateGarage(12)">Повернуть ↷</button></div>
+ <div class="garage-stage" id="garageStage" aria-label="Проведи пальцем влево или вправо, чтобы переключать фотографии автомобиля"><div class="car-turntable" id="carTurntable"><img id="garageCar" class="garage-car" src="civic-spin-01.webp" alt="Твой оранжевый Honda Civic 5D, передний левый ракурс" loading="eager" draggable="false"></div><span class="garage-view-label" id="garageViewLabel">Передний ¾ слева</span><span class="garage-view-count" id="garageViewCount">1 / 9</span></div>
+ <div class="garage-rotate-hint">↔ Зажми машину и веди пальцем — 9 ракурсов, полный круг</div><div class="garage-angle-dots" id="garageAngleDots"><button class="active" aria-label="Передний ¾ слева" onclick="setGarageAngle(0)"></button><button class="" aria-label="Спереди" onclick="setGarageAngle(1)"></button><button class="" aria-label="Передний ¾ справа" onclick="setGarageAngle(2)"></button><button class="" aria-label="Сбоку" onclick="setGarageAngle(3)"></button><button class="" aria-label="Задний ¾ слева" onclick="setGarageAngle(4)"></button><button class="" aria-label="Сзади" onclick="setGarageAngle(5)"></button><button class="" aria-label="Задний ¾ справа" onclick="setGarageAngle(6)"></button><button class="" aria-label="С другого бока" onclick="setGarageAngle(7)"></button><button class="" aria-label="Передний ¾" onclick="setGarageAngle(8)"></button></div><div class="garage-rotate-controls"><button type="button" onclick="rotateGarage(-1)">← Назад</button><button type="button" onclick="resetGarageView()">Главный вид</button><button type="button" onclick="rotateGarage(1)">Вперёд →</button></div>
  <div class="garage-menu">
   <button onclick="showPage('vehicle')"><span>🚘</span>АВТОМОБИЛЬ</button>
   <button onclick="showPage('history')"><span>🛠️</span>ИСТОРИЯ</button>
@@ -304,12 +304,23 @@ function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'appli
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.vehicle||!Array.isArray(x.events)||!Array.isArray(x.expenses)||!Array.isArray(x.reminders))throw Error();db={...structuredClone(defaults),...x,vehicle:{...defaults.vehicle,...(x.vehicle||{})},events:x.events||[],expenses:x.expenses||[],reminders:x.reminders||[],maintenance:x.maintenance||[],parts:x.parts||[],battery:x.battery||[],fuel:x.fuel||[],gallery:x.gallery||[],systems:x.systems||[]};save();showToast('Данные восстановлены')}catch(err){alert('Не удалось прочитать файл резервной копии')}};r.readAsText(f);e.target.value=''}
 function resetAll(){if(!confirm('Точно удалить профиль, историю, расходы и напоминания? Это действие нельзя отменить.'))return;db=structuredClone(defaults);save();showPage('dashboard');showToast('Данные очищены')}
 
-// Interactive perspective control for the car photo (not a true 3D mesh)
-let garageYaw=0,garagePitch=0,garageDrag=null;
-function paintGarageView(){const el=document.getElementById('carTurntable');if(el)el.style.transform=`perspective(850px) rotateY(${garageYaw}deg) rotateX(${garagePitch}deg) translateZ(18px)`;}
-function rotateGarage(delta){garageYaw=Math.max(-32,Math.min(32,garageYaw+delta));paintGarageView();}
-function resetGarageView(){garageYaw=0;garagePitch=0;paintGarageView();}
-(function initGarageInteraction(){const stage=document.getElementById('garageStage');if(!stage)return;stage.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;garageDrag={x:e.clientX,y:e.clientY,yaw:garageYaw,pitch:garagePitch};stage.classList.add('is-dragging');stage.setPointerCapture?.(e.pointerId)});stage.addEventListener('pointermove',e=>{if(!garageDrag)return;garageYaw=Math.max(-32,Math.min(32,garageDrag.yaw+(e.clientX-garageDrag.x)*.32));garagePitch=Math.max(-7,Math.min(7,garageDrag.pitch-(e.clientY-garageDrag.y)*.12));paintGarageView()});const end=()=>{garageDrag=null;stage.classList.remove('is-dragging')};stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);stage.addEventListener('lostpointercapture',end)})();
+// Поворотный просмотр: 9 согласованных AI-ракурсов, собранных в интерактивную фотопанораму.
+const garageAngles=[
+ {src:'civic-spin-01.webp',label:'Передний ¾ слева',alt:'Honda Civic 5D, передний левый ракурс'},
+ {src:'civic-spin-02.webp',label:'Спереди',alt:'Honda Civic 5D, вид строго спереди'},
+ {src:'civic-spin-03.webp',label:'Передний ¾ справа',alt:'Honda Civic 5D, передний правый ракурс'},
+ {src:'civic-spin-04.webp',label:'Сбоку',alt:'Honda Civic 5D, вид сбоку'},
+ {src:'civic-spin-05.webp',label:'Задний ¾ слева',alt:'Honda Civic 5D, задний левый ракурс'},
+ {src:'civic-spin-06.webp',label:'Сзади',alt:'Honda Civic 5D, вид сзади'},
+ {src:'civic-spin-07.webp',label:'Задний ¾ справа',alt:'Honda Civic 5D, задний правый ракурс'},
+ {src:'civic-spin-08.webp',label:'С другого бока',alt:'Honda Civic 5D, вид с противоположного бока'},
+ {src:'civic-spin-09.webp',label:'Передний ¾',alt:'Honda Civic 5D, передний ракурс под углом'}
+];
+let garageAngle=0,garageStartX=null,garageDragAccum=0;
+function setGarageAngle(index){garageAngle=(index+garageAngles.length)%garageAngles.length;const img=document.getElementById('garageCar'),label=document.getElementById('garageViewLabel'),count=document.getElementById('garageViewCount'),dots=document.querySelectorAll('#garageAngleDots button');if(!img)return;img.classList.add('is-changing');const next=garageAngles[garageAngle];const preload=new Image();preload.onload=()=>{img.src=next.src;img.alt=next.alt;requestAnimationFrame(()=>img.classList.remove('is-changing'))};preload.onerror=()=>{img.src=next.src;img.alt=next.alt;img.classList.remove('is-changing')};preload.src=next.src;if(label)label.textContent=next.label;if(count)count.textContent=`${garageAngle+1} / ${garageAngles.length}`;dots.forEach((d,i)=>d.classList.toggle('active',i===garageAngle));}
+function rotateGarage(delta){setGarageAngle(garageAngle+delta)}
+function resetGarageView(){setGarageAngle(0)}
+(function initGarageInteraction(){const stage=document.getElementById('garageStage');if(!stage)return;garageAngles.forEach(a=>{const im=new Image();im.src=a.src});stage.addEventListener('pointerdown',e=>{garageStartX=e.clientX;garageDragAccum=0;stage.classList.add('is-dragging');stage.setPointerCapture?.(e.pointerId)});stage.addEventListener('pointermove',e=>{if(garageStartX===null)return;garageDragAccum+=e.clientX-garageStartX;garageStartX=e.clientX;while(Math.abs(garageDragAccum)>=24){const dir=garageDragAccum<0?1:-1;rotateGarage(dir);garageDragAccum-=dir*24}});const end=()=>{garageStartX=null;garageDragAccum=0;stage.classList.remove('is-dragging')};stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end)})();
 
 render();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
